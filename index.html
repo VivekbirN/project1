@@ -7,6 +7,23 @@
         <title>The Little Taco Shop</title>
         <link rel="icon" href="" type="image/x-icon">
         <link rel="stylesheet" href="main.css">
+        <style>
+            .tablecontainer{
+                display:flex;
+                gap: 30px;
+                justify-content: center;
+            }
+            .menupictures{
+                display: flex;
+                gap: 30px;
+                justify-content: center;
+            }
+            .figcaption{
+                display: block;
+                text-align: center;
+
+            }
+        </style>
     </head>
 
     <body>
@@ -30,8 +47,13 @@
             </nav>
 
             <figure>
-                <img src="tacos.png" alt="Tacos and a drink" title="we love Tacos!" width="400" height="267">
-                <figcaption>Tacos and a Drink</figcaption>
+                <div class="menupictures">
+                    <img src="tacos.png" alt="Tacos and a drink" title="we love Tacos!" width="400" height="267">
+                    
+                    <img src="pizza.png" alt="The variety of pizzas available" width="400" height="267">
+                    <img src="coffee.png" width="400" height="267">
+                    
+                </div>
             </figure>
         </header>
         <hr>
@@ -58,6 +80,7 @@
             <hr>
             <article id="menu">
                 <h2>Our Menu</h2>
+                <div class="tablecontainer">
                 <table>
                     <caption>Our Tacos</caption>
                     <thead>
@@ -109,6 +132,202 @@
                         </tr>
                     </tfoot>
                 </table>
+                <br>
+                <br>
+                <table>
+                    <caption>Our Coffees</caption>
+                    <thead>
+                        <tr>
+                            <th>
+                                Coffees
+                            </th>
+                            <th scope="col"><abbr title="Quantity">qty</abbr></th>
+
+                            <th scope="col">Price</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" rowspan="3">Espresso</th>
+                        
+                            <td>1</td>
+                            <td>$2</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>$3.50</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>$5.25</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" rowspan="3">Cappucino</th>
+                        
+                            <td>1</td>
+                            <td>$2.00</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>$3.50</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>$4.25</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" rowspan="3">Mocha</th>
+
+                            <td>1</td>
+                            <td>$2.00</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>$3.75</td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>$5.75</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" rowspan="3">Hot chocolate</th>
+
+                            <td>1</td>
+                            <td>$2.2</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>$4</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>$5.4</td>
+                        <tr>
+                            <th scope="row" rowspan="3">Cold Coffee</th>
+
+                            <td>1</td>
+                            <td>$1.5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>$2.8</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>$4</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">    <!--table data-->
+                                Whipped cream &amp; Extra Sugar $2
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <table>
+                    <caption>Our Pizzas</caption>
+                    <thead>
+                        <tr>
+                            <th>
+                                Pizza
+                            </th>
+                            <th scope="col"><abbr title="Inches">Size</abbr></th>
+
+                            <th scope="col">Price</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" rowspan="3">Paneer Tikka Pizza</th>
+                        
+                            <td>10</td>
+                            <td>$5</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>$8.50</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>$12</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" rowspan="3">Chicago-Style Deep Dish</th>
+                        
+                            <td>10</td>
+                            <td>$4.30</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>$6.50</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>$8.25</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" rowspan="3">Detroit Style Pizza</th>
+
+                            <td>10</td>
+                            <td>$2.00</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>$3.75</td>
+                        </tr>
+
+                        <tr>
+                            <td>16</td>
+                            <td>$5.75</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" rowspan="3">California Pizza</th>
+
+                            <td>10</td>
+                            <td>$3.2</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>$4</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>$5.4</td>
+                        <tr>
+                            <th scope="row" rowspan="3">Mexican thin crust</th>
+
+                            <td>10</td>
+                            <td>$3.5</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>$5.8</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>$7</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">    <!--table data-->
+                                Origano &amp; Chilly flakes $2
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
                 <br>
                 <p>
                     <a href="#">Back to top</a>
