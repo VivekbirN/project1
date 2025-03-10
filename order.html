@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="Vivekbir">
+        <meta name="description" content="The official website for The little Taco Shop">
+        <title>The Little Taco Shop</title>
+        <link rel="icon" href="" type="image/x-icon">
+        <link rel="stylesheet" href="main.css">
+        <style>
+            .navbar{
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>Our services at your doorstep</header>
+        <nav>
+            <ul>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="index.html#menu">Our Menu</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="hours.html">Store Hours</a></li>
+            </ul>
+        </nav>
+    
+        <figure>
+            <img src="delivery.png" width="400px" height="267px" alt="Delivery Image">
+            <figcaption>Finger snapping quick delivery!</figcaption>
+        </figure>
+    
+        <div class="navbar">
+            <label for="tacos">Tacos:</label>
+            <select id="tacos" class="menu-item" onchange="addToCart('Tacos', this.value)">
+                <option selected disabled>Tacos</option>
+                <option value="Crunchy">Crunchy</option>
+                <option value="Soft">Soft</option>
+                <option value="Chip and Salsa">Chip and Salsa</option>
+            </select>
+            <br><br>
+    
+            <label for="coffee">Coffee:</label>
+            <select id="coffee" class="menu-item" onchange="addToCart('Coffee', this.value)">
+                <option selected disabled>Coffee</option>
+                <option value="Espresso">Espresso</option>
+                <option value="Cappuccino">Cappuccino</option>
+                <option value="Mocha">Mocha</option>
+                <option value="Hot Chocolate">Hot Chocolate</option>
+                <option value="Cold Coffee">Cold Coffee</option>
+            </select>
+            <br><br>
+    
+            <label for="pizza">Pizza:</label>
+            <select id="pizza" class="menu-item" onchange="addToCart('Pizza', this.value)">
+                <option selected disabled>Pizza</option>
+                <option value="Paneer Tikka Pizza">Paneer Tikka Pizza</option>
+                <option value="Chicago-Style Deep Dish">Chicago-Style Deep Dish</option>
+                <option value="Detroit Style Pizza">Detroit Style Pizza</option>
+                <option value="California Pizza">California Pizza</option>
+                <option value="Mexican Thin Crust">Mexican Thin Crust</option>
+            </select>
+        </div>
+    
+        <br><br>
+    
+        <h2>🛒 Your Cart</h2>
+        <ul id="cart"></ul>
+        <h3>Total Price: ₹<span id="total">0.00</span></h3>
+        <h3>Price After 18% GST: ₹<span id="totalWithGST">0.00</span></h3>
+    
+                <!-- Proceed to Payment Button -->
+        <a href="payment.html">
+            <button>Proceed to Payment</button>
+        </a>
+
+    
+        <script>
+            const prices = {
+                "Crunchy": 120, "Soft": 100, "Chip and Salsa": 80,
+                "Espresso": 90, "Cappuccino": 120, "Mocha": 150, "Hot Chocolate": 100, "Cold Coffee": 110,
+                "Paneer Tikka Pizza": 250, "Chicago-Style Deep Dish": 300, "Detroit Style Pizza": 280, 
+                "California Pizza": 270, "Mexican Thin Crust": 260
+            };
+    
+            let cartItems = [];
+    
+            function addToCart(category, item) {
+                if (item !== category) {
+                    let existingItem = cartItems.find(cartItem => cartItem.name === item);
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cartItems.push({ name: item, category: category, quantity: 1, price: prices[item] });
+                    }
+                    updateCartDisplay();
+                }
+            }
+    
+            function increaseQuantity(itemName) {
+                let item = cartItems.find(cartItem => cartItem.name === itemName);
+                if (item) {
+                    item.quantity += 1;
+                    updateCartDisplay();
+                }
+            }
+    
+            function updateCartDisplay() {
+                let cart = document.getElementById("cart");
+                cart.innerHTML = "";
+    
+                let total = 0;
+                cartItems.forEach(item => {
+                    total += item.quantity * item.price;
+                    let listItem = document.createElement("li");
+                    listItem.innerHTML = `${item.category}: ${item.name} (x${item.quantity}) - ₹${item.quantity * item.price} 
+                    <button onclick="increaseQuantity('${item.name}')">+</button>`;
+                    cart.appendChild(listItem);
+                });
+    
+                let totalWithGST = total * 1.18;
+                document.getElementById("total").textContent = total.toFixed(2);
+                document.getElementById("totalWithGST").textContent = totalWithGST.toFixed(2);
+            }
+    
+            function proceedToPayment() {
+                let totalAmount = document.getElementById("totalWithGST").textContent;
+                localStorage.setItem("finalAmount", totalAmount);
+                window.location.href = "payment.html";
+            }
+        </script>
+    
+    </body>
+</html>
