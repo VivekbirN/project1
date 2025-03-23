@@ -2,68 +2,58 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="Vivekbir">
-        <meta name="description" content="Contact information for The little Taco Shop">
-        <title>Contact us- LTS</title>
-        <link rel="icon" href="" type="image/x-icon">
+        <meta name="author" content="Vivekbir">
+        <meta name="description" content="Payment for The Little Taco Shop">
+        <title>Payment - LTS</title>
         <link rel="stylesheet" href="main.css">
-    </head>     
-                <h2>Payment</h2>
-                <nav>
-                    <a href="index.html">Home</a>
-                    <br>
-                    <a href="index.html#menu">Menu</a>
-                </nav>
+    </head>
+    <body>
+        <h2>Payment</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <br>
+            <a href="index.html#menu">Menu</a>
+        </nav>
+        
+        <br>
+        <form id="payment-form">
+            <label for="payment-mode">Select Payment Mode:</label>
+            <select id="payment-mode" name="payment-mode">
+                <option value="credit">Credit Card</option>
+                <option value="upi">UPI</option>
+                <option value="cod">Cash on Delivery</option>
+                <option value="net-banking">Net Banking</option>
+            </select>
     
-                <br>
-                <form id="payment-form">
-                    <label for="payment-mode">Select Payment Mode:</label>
-                    <select id="payment-mode" name="payment-mode">
-                        <option value="credit">Credit Card</option>
-                        <option value="upi">UPI</option>
-                        <option value="cod">Cash on Delivery</option>
-                        <option value="net-banking">Net Banking</option>
-                    </select>
-            
-                    <div id="payment-details"></div>
-            
-                    <p>Total Amount: <span id="total-amount">₹0</span></p>
-            
-                    <button type="submit">Proceed to Payment</button>
-                </form>
-            
-                <script>
-                    function fetchCartTotal() {
-                        // Assume cart total is stored in localStorage (or use your cart logic)
-                        const cartTotal = localStorage.getItem("cartTotal") || 0;
-                        document.getElementById("total-amount").innerText = `₹${cartTotal}`;
-                    }
-            
-                    document.getElementById("payment-mode").addEventListener("change", function () {
-                        const mode = this.value;
-                        const detailsDiv = document.getElementById("payment-details");
-                        detailsDiv.innerHTML = "";
-            
-                        if (mode === "credit") {
-                            detailsDiv.innerHTML = '<label>Card Number:</label> <input type="text" name="card-number" required>';
-                        } else if (mode === "upi") {
-                            detailsDiv.innerHTML = '<label>UPI ID:</label> <input type="text" name="upi-id" required>';
-                        } else if (mode === "net-banking") {
-                            detailsDiv.innerHTML = '<label>Bank Name:</label> <input type="text" name="bank-name" required>';
-                        }
-                    });
-            
-                    document.getElementById("payment-form").addEventListener("submit", function (event) {
-                        event.preventDefault();
-                        alert("Payment Successful!");
-                        window.location.href = "index.html";
-                    });
-            
-                    // Fetch cart total when page loads
-                    fetchCartTotal();
-            
-                    // Update cart total in real time (if the cart updates dynamically elsewhere)
-                    window.addEventListener("storage", fetchCartTotal);
-                </script>
-            </body>
-            
+            <div id="payment-details"></div>
+    
+            <p>Total Payable Amount: <span id="final-payment-amount">₹0</span></p>
+    
+            <button type="submit">Proceed to Payment</button>
+        </form>
+        <br>
+    
+        <script>
+            function fetchCartTotal() {
+                const finalAmount = localStorage.getItem("finalAmount") || "0.00";
+                document.getElementById("final-payment-amount").textContent = `₹${finalAmount}`;
+            }
+
+            document.getElementById("payment-mode").addEventListener("change", function () {
+                const mode = this.value;
+                const detailsDiv = document.getElementById("payment-details");
+                detailsDiv.innerHTML = mode === "credit" ? '<label>Card Number:</label> <input type="text" name="card-number" required>' : 
+                                      mode === "upi" ? '<label>UPI ID:</label> <input type="text" name="upi-id" required>' : 
+                                      mode === "net-banking" ? '<label>Bank Name:</label> <input type="text" name="bank-name" required>' : "";
+            });
+
+            document.getElementById("payment-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                alert("Payment Successful!");
+                window.location.href = "index.html";
+            });
+
+            window.onload = fetchCartTotal;
+        </script>
+    </body>
+</html>

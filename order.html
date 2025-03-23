@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head>  
         <meta charset="UTF-8">
-        <meta name="Vivekbir">
-        <meta name="description" content="The official website for The little Taco Shop">
+        <meta name="author" content="Vivekbir">
+        <meta name="description" content="The official website for The Little Taco Shop">
         <title>The Little Taco Shop</title>
         <link rel="icon" href="" type="image/x-icon">
         <link rel="stylesheet" href="main.css">
         <style>
-            .navbar{
+            .navbar {
                 display: block;
             }
         </style>
@@ -25,12 +25,12 @@
                 <li><a href="hours.html">Store Hours</a></li>
             </ul>
         </nav>
-    
+
         <figure>
             <img src="delivery.png" width="400px" height="267px" alt="Delivery Image">
             <figcaption>Finger snapping quick delivery!</figcaption>
         </figure>
-    
+
         <div class="navbar">
             <label for="tacos">Tacos:</label>
             <select id="tacos" class="menu-item" onchange="addToCart('Tacos', this.value)">
@@ -40,7 +40,7 @@
                 <option value="Chip and Salsa">Chip and Salsa</option>
             </select>
             <br><br>
-    
+
             <label for="coffee">Coffee:</label>
             <select id="coffee" class="menu-item" onchange="addToCart('Coffee', this.value)">
                 <option selected disabled>Coffee</option>
@@ -51,7 +51,7 @@
                 <option value="Cold Coffee">Cold Coffee</option>
             </select>
             <br><br>
-    
+
             <label for="pizza">Pizza:</label>
             <select id="pizza" class="menu-item" onchange="addToCart('Pizza', this.value)">
                 <option selected disabled>Pizza</option>
@@ -62,20 +62,24 @@
                 <option value="Mexican Thin Crust">Mexican Thin Crust</option>
             </select>
         </div>
-    
+
         <br><br>
-    
+
         <h2>🛒 Your Cart</h2>
         <ul id="cart"></ul>
         <h3>Total Price: ₹<span id="total">0.00</span></h3>
         <h3>Price After 18% GST: ₹<span id="totalWithGST">0.00</span></h3>
-    
-                <!-- Proceed to Payment Button -->
-        <a href="payment.html">
-            <button>Proceed to Payment</button>
-        </a>
 
-    
+        <h2>Enter Your Details</h2>
+        <label for="username">Name:</label>
+        <input type="text" id="username" placeholder="Enter your name" required>
+        <br><br>
+        <label for="address">Address:</label>
+        <textarea id="address" placeholder="Enter your address" required></textarea>
+        <br><br>
+
+        <button onclick="proceedToPayment()">Proceed to Payment</button>
+
         <script>
             const prices = {
                 "Crunchy": 120, "Soft": 100, "Chip and Salsa": 80,
@@ -83,21 +87,19 @@
                 "Paneer Tikka Pizza": 250, "Chicago-Style Deep Dish": 300, "Detroit Style Pizza": 280, 
                 "California Pizza": 270, "Mexican Thin Crust": 260
             };
-    
+
             let cartItems = [];
-    
+
             function addToCart(category, item) {
-                if (item !== category) {
-                    let existingItem = cartItems.find(cartItem => cartItem.name === item);
-                    if (existingItem) {
-                        existingItem.quantity += 1;
-                    } else {
-                        cartItems.push({ name: item, category: category, quantity: 1, price: prices[item] });
-                    }
-                    updateCartDisplay();
+                let existingItem = cartItems.find(cartItem => cartItem.name === item);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cartItems.push({ name: item, category: category, quantity: 1, price: prices[item] });
                 }
+                updateCartDisplay();
             }
-    
+
             function increaseQuantity(itemName) {
                 let item = cartItems.find(cartItem => cartItem.name === itemName);
                 if (item) {
@@ -105,31 +107,59 @@
                     updateCartDisplay();
                 }
             }
-    
+
             function updateCartDisplay() {
                 let cart = document.getElementById("cart");
                 cart.innerHTML = "";
-    
+
                 let total = 0;
                 cartItems.forEach(item => {
                     total += item.quantity * item.price;
                     let listItem = document.createElement("li");
-                    listItem.innerHTML = `${item.category}: ${item.name} (x${item.quantity}) - ₹${item.quantity * item.price} 
-                    <button onclick="increaseQuantity('${item.name}')">+</button>`;
+                    listItem.innerHTML = `${item.category}: ${item.name} (x${item.quantity}) - ₹${item.quantity * item.price} ` +
+                        `<button onclick="increaseQuantity('${item.name}')">+</button>`;
                     cart.appendChild(listItem);
                 });
-    
+
                 let totalWithGST = total * 1.18;
                 document.getElementById("total").textContent = total.toFixed(2);
                 document.getElementById("totalWithGST").textContent = totalWithGST.toFixed(2);
+
+                localStorage.setItem("finalAmount", totalWithGST.toFixed(2));
             }
-    
+
             function proceedToPayment() {
-                let totalAmount = document.getElementById("totalWithGST").textContent;
-                localStorage.setItem("finalAmount", totalAmount);
-                window.location.href = "payment.html";
+                let username = document.getElementById("username").value.trim();
+                let address = document.getElementById("address").value.trim();
+
+                if (!username || !address) {
+                    alert("Please enter your name and address before proceeding to payment.");
+                    return;
+                }
+
+                let orderData = {
+                    username: username,
+                    address: address,
+                    cartItems: cartItems,
+                    total: document.getElementById("totalWithGST").textContent
+                };
+
+                fetch("/order", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(orderData)
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    localStorage.setItem("username", username);
+                    localStorage.setItem("address", address);
+                    setTimeout(() => {
+                        window.location.href = "payment.html";
+                    }, 500);
+                })
+                .catch(error => console.error("Error:", error));
             }
         </script>
-    
     </body>
 </html>
